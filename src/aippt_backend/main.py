@@ -157,7 +157,7 @@ async def generate_ppt_content_stream(request: PPTContentRequest):
 
     return StreamingResponse(stream_pages(), media_type="text/event-stream")
 
-@app.post("/tools/aippt_outline")
+@app.post("/tools/aippt_ask")
 async def generate_question_content_stream(question: str):
     return "This is a test message"
 
