@@ -157,6 +157,11 @@ async def generate_ppt_content_stream(request: PPTContentRequest):
 
     return StreamingResponse(stream_pages(), media_type="text/event-stream")
 
+@app.post("/tools/aippt_outline")
+async def generate_question_content_stream(question: str):
+    return "This is a test message"
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=5000, reload=True)
