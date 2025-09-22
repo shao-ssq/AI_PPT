@@ -7,7 +7,7 @@
             <div class="ai-menu" @click="openAIPPTDialog(); mainMenuVisible = false">
               <div class="icon"><IconClick theme="two-tone" :fill="['#ffc158', '#fff']" /></div>
               <div class="aippt-content">
-                <div class="aippt"><span>AIPPT</span></div>
+                <div class="aippt"><span>CNC PPT</span></div>
                 <div class="aippt-subtitle">输入一句话，智能生成演示文稿</div>
               </div>
             </div>
@@ -48,23 +48,19 @@
           <PopoverMenuItem class="popover-menu-item" @click="resetSlides(); mainMenuVisible = false"><IconRefresh class="icon" /> 重置幻灯片</PopoverMenuItem>
           <PopoverMenuItem class="popover-menu-item" @click="openMarkupPanel(); mainMenuVisible = false"><IconMark class="icon" /> 幻灯片类型标注</PopoverMenuItem>
           <PopoverMenuItem class="popover-menu-item" @click="mainMenuVisible = false; hotkeyDrawerVisible = true"><IconCommand class="icon" /> 快捷操作</PopoverMenuItem>
-          <PopoverMenuItem class="popover-menu-item" @click="goLink('https://github.com/pipipi-pikachu/PPTist/issues')"><IconComment class="icon" /> 意见反馈</PopoverMenuItem>
-          <PopoverMenuItem class="popover-menu-item" @click="goLink('https://github.com/pipipi-pikachu/PPTist/blob/master/doc/Q&A.md')"><IconHelpcenter class="icon" /> 常见问题</PopoverMenuItem>
-          <Divider :margin="10" />
-          <div class="statement">注：本站仅作测试/演示，不提供任何形式的服务</div>
         </template>
         <div class="menu-item"><IconHamburgerButton class="icon" /></div>
       </Popover>
 
       <div class="title">
-        <Input 
-          class="title-input" 
+        <Input
+          class="title-input"
           ref="titleInputRef"
-          v-model:value="titleValue" 
-          @blur="handleUpdateTitle()" 
-          v-if="editingTitle" 
+          v-model:value="titleValue"
+          @blur="handleUpdateTitle()"
+          v-if="editingTitle"
         ></Input>
-        <div 
+        <div
           class="title-text"
           @click="startEditTitle()"
           :title="title"
@@ -72,7 +68,11 @@
         >{{ title }}</div>
       </div>
     </div>
-
+    <div class="middle">
+      <div class="menu-item" v-tooltip="'AI生成PPT'" @click="openAIPPTDialog(); mainMenuVisible = false">
+        <span class="text ai">AI</span>
+      </div>
+    </div>
     <div class="right">
       <div class="group-menu-item">
         <div class="menu-item" v-tooltip="'幻灯片放映（F5）'" @click="enterScreening()">
@@ -86,15 +86,9 @@
           <div class="arrow-btn"><IconDown class="arrow" /></div>
         </Popover>
       </div>
-      <div class="menu-item" v-tooltip="'AI生成PPT'" @click="openAIPPTDialog(); mainMenuVisible = false">
-        <span class="text ai">AI</span>
-      </div>
       <div class="menu-item" v-tooltip="'导出'" @click="setDialogForExport('pptx')">
         <IconDownload class="icon" />
       </div>
-      <a class="github-link" v-tooltip="'Copyright © 2020-PRESENT pipipi-pikachu'" href="https://github.com/pipipi-pikachu/PPTist" target="_blank">
-        <div class="menu-item"><IconGithub class="icon" /></div>
-      </a>
     </div>
 
     <Drawer
@@ -180,7 +174,7 @@ const openAIPPTDialog = () => {
   justify-content: space-between;
   padding: 0 5px;
 }
-.left, .right {
+.left, .right , .middle{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -291,7 +285,7 @@ const openAIPPTDialog = () => {
     border: 1px solid $borderColor;
     transition: background-color .2s;
     cursor: pointer;
-  
+
     &:hover {
       background-color: #f1f1f1;
     }

@@ -1,18 +1,17 @@
 <template>
   <div class="aippt-dialog">
     <div class="header">
-      <span class="title">AIPPT</span>
+      <span class="title">CNC PPT</span>
       <span class="subtite" v-if="step === 'template'">从下方挑选合适的模板生成PPT，或<span class="local" v-tooltip="'上传.pptist格式模板文件'" @click="uploadLocalTemplate()">使用本地模板生成</span></span>
       <span class="subtite" v-else-if="step === 'outline'">确认下方内容大纲（点击编辑内容，右键添加/删除大纲项），开始选择模板</span>
-      <span class="subtite" v-else>在下方输入您的PPT主题，并适当补充信息，如行业、岗位、学科、用途等</span>
     </div>
-    
+
     <template v-if="step === 'setup'">
-      <Input class="input" 
+      <Input class="input"
         ref="inputRef"
-        v-model:value="keyword" 
-        :maxlength="50" 
-        placeholder="请输入PPT主题，如：大学生职业生涯规划" 
+        v-model:value="keyword"
+        :maxlength="50"
+        placeholder="输入您的PPT主题，并适当补充信息，如行业、岗位、学科、用途等"
         @enter="createOutline()"
       >
         <template #suffix>
@@ -20,26 +19,22 @@
           <div class="submit" type="primary" @click="createOutline()"><IconSend class="icon" /> AI 生成</div>
         </template>
       </Input>
-      <div class="recommends">
-        <div class="recommend" v-for="(item, index) in recommends" :key="index" @click="setKeyword(item)">{{ item }}</div>
-      </div>
       <div class="configs">
         <div class="config-item">
           <div class="label">语言：</div>
-          <Select 
+          <Select
             class="config-content"
             style="width: 80px;"
             v-model:value="language"
             :options="[
               { label: '中文', value: '中文' },
               { label: '英文', value: 'English' },
-              { label: '日文', value: '日本語' },
             ]"
           />
         </div>
         <div class="config-item">
           <div class="label">风格：</div>
-          <Select 
+          <Select
             class="config-content"
             style="width: 80px;"
             v-model:value="style"
@@ -53,32 +48,32 @@
           />
         </div>
         <div class="config-item">
-          <div class="label">模型：</div>
-          <Select 
-            class="config-content"
-            style="width: 190px;"
-            v-model:value="model"
-            :options="[
-              { label: 'GLM-4.5-Air', value: 'GLM-4.5-Air' },
-              { label: 'GLM-4.5-Flash', value: 'GLM-4.5-Flash' },
-              { label: 'Doubao-Seed-1.6-flash', value: 'ark-doubao-seed-1.6-flash' },
-              { label: 'Doubao-Seed-1.6', value: 'ark-doubao-seed-1.6' },
-            ]"
-          />
+<!--          <div class="label">模型：</div>-->
+<!--          <Select-->
+<!--            class="config-content"-->
+<!--            style="width: 190px;"-->
+<!--            v-model:value="model"-->
+<!--            :options="[-->
+<!--              { label: 'GLM-4.5-Air', value: 'GLM-4.5-Air' },-->
+<!--              { label: 'GLM-4.5-Flash', value: 'GLM-4.5-Flash' },-->
+<!--              { label: 'Doubao-Seed-1.6-flash', value: 'ark-doubao-seed-1.6-flash' },-->
+<!--              { label: 'Doubao-Seed-1.6', value: 'ark-doubao-seed-1.6' },-->
+<!--            ]"-->
+<!--          />-->
         </div>
         <div class="config-item">
-          <div class="label">配图：</div>
-          <Select 
-            class="config-content"
-            style="width: 100px;"
-            v-model:value="img"
-            :options="[
-              { label: '无', value: '' },
-              { label: '模拟测试', value: 'test' },
-              { label: 'AI搜图', value: 'ai-search', disabled: true },
-              { label: 'AI生图', value: 'ai-create', disabled: true },
-            ]"
-          />
+<!--          <div class="label">配图：</div>-->
+<!--          <Select-->
+<!--            class="config-content"-->
+<!--            style="width: 100px;"-->
+<!--            v-model:value="img"-->
+<!--            :options="[-->
+<!--              { label: '无', value: '' },-->
+<!--              { label: '模拟测试', value: 'test' },-->
+<!--              { label: 'AI搜图', value: 'ai-search', disabled: true },-->
+<!--              { label: 'AI生图', value: 'ai-create', disabled: true },-->
+<!--            ]"-->
+<!--          />-->
         </div>
       </div>
     </template>
@@ -94,10 +89,10 @@
     </div>
     <div class="select-template" v-if="step === 'template'">
       <div class="templates">
-        <div class="template" 
-          :class="{ 'selected': selectedTemplate === template.id }" 
-          v-for="template in templates" 
-          :key="template.id" 
+        <div class="template"
+          :class="{ 'selected': selectedTemplate === template.id }"
+          v-for="template in templates"
+          :key="template.id"
           @click="selectedTemplate = template.id"
         >
           <img :src="template.cover" :alt="template.name">
@@ -158,7 +153,7 @@ const recommends = ref([
   '区块链技术及其应用',
   '大学生职业生涯规划',
   '公司年会策划方案',
-]) 
+])
 
 onMounted(() => {
   setTimeout(() => {
@@ -176,7 +171,7 @@ const createOutline = async () => {
 
   loading.value = true
   outlineCreating.value = true
-  
+
   const stream = await api.AIPPT_Outline({
     content: keyword.value,
     language: language.value,
@@ -188,7 +183,7 @@ const createOutline = async () => {
 
   const reader: ReadableStreamDefaultReader = stream.body.getReader()
   const decoder = new TextDecoder('utf-8')
-  
+
   const readStream = () => {
     reader.read().then(({ done, value }) => {
       if (done) {
@@ -197,7 +192,7 @@ const createOutline = async () => {
         outlineCreating.value = false
         return
       }
-  
+
       const chunk = decoder.decode(value, { stream: true })
       outline.value += chunk
 
@@ -233,7 +228,7 @@ const createPPT = async (template?: { slides: Slide[], theme: SlideTheme }) => {
 
   const reader: ReadableStreamDefaultReader = stream.body.getReader()
   const decoder = new TextDecoder('utf-8')
-  
+
   const readStream = () => {
     reader.read().then(({ done, value }) => {
       if (done) {
@@ -242,7 +237,7 @@ const createPPT = async (template?: { slides: Slide[], theme: SlideTheme }) => {
         slideStore.setTheme(templateTheme)
         return
       }
-  
+
       const chunk = decoder.decode(value, { stream: true })
       try {
         const text = chunk.replace('```json', '').replace('```', '').trim()
@@ -346,7 +341,7 @@ const uploadLocalTemplate = () => {
     display: flex;
     margin-bottom: 10px;
     @include flex-grid-layout();
-  
+
     .template {
       border: 2px solid $borderColor;
       border-radius: $borderRadius;
@@ -361,7 +356,7 @@ const uploadLocalTemplate = () => {
       &.selected {
         border-color: $themeColor;
       }
-  
+
       img {
         width: 100%;
       }
@@ -457,7 +452,7 @@ const uploadLocalTemplate = () => {
       max-height: 450px;
       display: block;
       overflow: auto;
-    
+
       .template {
         width: 100%;
         height: unset;
