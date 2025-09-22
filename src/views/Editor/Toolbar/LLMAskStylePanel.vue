@@ -8,36 +8,38 @@
           :key="index"
           :class="['chat-message', msg.role]"
       >
-        <strong>{{ msg.role === 'user' ? '用户' : 'AI' }}:</strong>
         <span>{{ msg.content }}</span>
       </div>
+      <div ref="lastRef"></div>
     </div>
 
     <div class="input-area">
       <input
           v-model="userInput"
           type="text"
-          placeholder="请输入你的问题..."
+          placeholder="有什么可以帮你的吗？"
           @keyup.enter="sendMessage"
       />
-      <button @click="sendMessage">发送</button>
+      <img @click="sendMessage" src="@/assets/send.svg" class="send-img" alt="按钮" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref } from 'vue'
 
-const userInput = ref("")
+const userInput = ref('')
 const messages = ref([])
+const lastRef = ref(null)
+const loading = ref(false)
 
 // 模拟 LLM 响应
 function fakeLLMResponse(question) {
   const answers = [
-    "这是个很好的问题，我来详细解释一下……",
-    "你可以这样理解：LLM 就像一个超级搜索引擎 + 语言专家。",
-    "换句话说，它会基于大量训练数据给出最合理的答案。",
-    "我不太确定，但可以给你一些思路……",
+    '这是个很好的问题，我来详细解释一下……',
+    '你可以这样理解：LLM 就像一个超级搜索引擎 + 语言专家。',
+    '换句话说，它会基于大量训练数据给出最合理的答案。',
+    '我不太确定，但可以给你一些思路……',
   ]
   const randomIndex = Math.floor(Math.random() * answers.length)
   return answers[randomIndex]
@@ -45,42 +47,45 @@ function fakeLLMResponse(question) {
 
 // 发送消息
 function sendMessage() {
-  if (!userInput.value.trim()) return
+  if (!userInput.value.trim() || loading.value) return
 
   // 添加用户消息
-  messages.value.push({ role: "user", content: userInput.value })
+  messages.value.push({ role: 'user', content: userInput.value })
   const question = userInput.value
-  userInput.value = ""
+  userInput.value = ''
+  loading.value = true
 
   // 模拟 AI 回复（延迟）
   setTimeout(() => {
     const answer = fakeLLMResponse(question)
-    messages.value.push({ role: "ai", content: answer })
+    messages.value.push({ role: 'ai', content: answer })
+    loading.value = false
+  }, Math.random() * 1500 + 500)
+  setTimeout(() => {
+    lastRef.value.scrollIntoView({ behavior: 'smooth' })
   }, Math.random() * 1500 + 500)
 }
 </script>
 
 <style scoped>
 .chat-container {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  background: #fafafa;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - 110px);
   font-family: "Arial", sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 .title {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 .chat-window {
-  height: 400px;
+  flex: 1;
   overflow-y: auto;
-  padding: 10px;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  background: #fff;
+  display: flex;
+  flex-direction: column;
 }
 .chat-message {
   margin: 8px 0;
@@ -102,20 +107,13 @@ function sendMessage() {
 }
 .input-area input {
   flex: 1;
-  padding: 8px;
+  padding: 6px 3px;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
-.input-area button {
-  margin-left: 8px;
-  padding: 8px 16px;
-  border: none;
-  background: #1677ff;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.input-area button:hover {
-  background: #4096ff;
+.send-img {
+  margin-left: 5px;
+  width: 35px;
+  height: 35px;
 }
 </style>
