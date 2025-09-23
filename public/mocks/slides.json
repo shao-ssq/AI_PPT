@@ -4,73 +4,144 @@
     "elements": [
       {
         "type": "shape",
-        "id": "4cbRxp",
+        "id": "rNKzhDdWcA",
         "left": 0,
-        "top": 200,
-        "width": 546,
-        "height": 362.5,
-        "viewBox": [200, 200],
-        "path": "M 0 0 L 0 200 L 200 200 Z",
-        "fill": "#5b9bd5",
+        "top": 110,
+        "width": 550,
+        "height": 150,
+        "viewBox": [
+          550,
+          150
+        ],
+        "path": "M 0 71.0204081632653 L 0 0 L 471.0204081632653 0 L 550 78.9795918367347 L 550 150 L 78.9795918367347 150 Z",
+        "fill": "rgba(126,0,1,1)",
         "fixedRatio": false,
-        "opacity": 0.7,
-        "rotate": 0
+        "rotate": 0,
+        "pathFormula": "cutRectDiagonal",
+        "keypoints": [
+          0.5265306122448979
+        ],
+        "lock": true
       },
       {
         "type": "shape",
-        "id": "ookHrf",
-        "left": 0,
-        "top": 0,
-        "width": 300,
-        "height": 320,
-        "viewBox": [200, 200],
-        "path": "M 0 0 L 0 200 L 200 200 Z",
-        "fill": "#5b9bd5",
+        "id": "A1TKVa0atZ",
+        "left": 450,
+        "top": 302.5,
+        "width": 550,
+        "height": 150,
+        "viewBox": [
+          550,
+          150
+        ],
+        "path": "M 0 85.56122448979592 L 0 0 L 485.5612244897959 0 L 550 64.43877551020408 L 550 150 L 64.43877551020408 150 Z",
+        "fill": "rgba(126,0,1,1)",
         "fixedRatio": false,
-        "flipV": true,
-        "rotate": 0
+        "rotate": 0,
+        "pathFormula": "cutRectDiagonal",
+        "keypoints": [
+          0.4295918367346939
+        ],
+        "lock": true
+      },
+      {
+        "type": "shape",
+        "id": "TYtwTsTvu3",
+        "left": 0,
+        "top": 142.60824436536183,
+        "width": 1000,
+        "height": 277.2835112692764,
+        "viewBox": [
+          200,
+          200
+        ],
+        "path": "M 0 0 L 200 0 L 200 200 L 0 200 Z",
+        "fill": "rgba(155,0,0,1)",
+        "fixedRatio": false,
+        "rotate": 0,
+        "lock": true
       },
       {
         "type": "text",
-        "id": "idn7Mx",
-        "left": 355,
-        "top": 65.25,
-        "width": 450,
-        "height": 188,
-        "lineHeight": 1.2,
-        "content": "<p><strong><span style=\"font-size: 112px;\">逐梦</span></strong></p>",
+        "id": "0CW1ogWjyr",
+        "left": 275,
+        "top": 179.6,
+        "width": 680,
+        "height": 92,
+        "content": "<p style=\"\"><strong><span style=\"font-size: 48px;\"><span style=\"color: rgb(255, 255, 255);\">模板封面标题</span></span></strong></p>",
         "rotate": 0,
         "defaultFontName": "",
-        "defaultColor": "#333"
-      },
-      {
-        "type": "text",
-        "id": "7stmVP",
-        "left": 355,
-        "top": 253.25,
-        "width": 585,
-        "height": 56,
-        "content": "<p><span style=\"font-size: 24px;\">晨曦照亮新天地，心怀梦想勇前行。</span></p>",
-        "rotate": 0,
-        "defaultFontName": "",
-        "defaultColor": "#333"
+        "defaultColor": "#333",
+        "vertical": false,
+        "textType": "title"
       },
       {
         "type": "line",
-        "id": "FnpZs4",
-        "left": 361,
-        "top": 238,
-        "start": [0, 0],
-        "end": [549, 0],
-        "points": ["", ""],
-        "color": "#5b9bd5",
+        "id": "IxK3eBeu0n",
+        "left": 290.1720047449585,
+        "top": 281.25,
+        "start": [
+          0,
+          0
+        ],
+        "end": [
+          154.22301304863583,
+          0
+        ],
+        "points": [
+          "",
+          ""
+        ],
+        "color": "#ffffff",
         "style": "solid",
-        "width": 2
+        "width": 1
+      },
+      {
+        "type": "text",
+        "id": "gMLWlkMpNn",
+        "left": 275,
+        "top": 290,
+        "width": 680,
+        "height": 68,
+        "content": "<p style=\"\" class=\"ProseMirror-selectednode\" draggable=\"true\"><span style=\"font-size: 16px;\"><span style=\"color: rgb(255, 255, 255);\">模板封面正文模板封面正文模板封面正文模板封面正文模板封面正文模板封面正文模板封面正文模板封面正文模板封面正文模板封面正文模板封面正文模板封面正文模板封面正文</span></span></p>",
+        "rotate": 0,
+        "defaultFontName": "",
+        "defaultColor": "#333",
+        "vertical": false,
+        "textType": "content"
+      },
+      {
+        "type": "image",
+        "id": "nk64VqD_ke",
+        "src": "https://images.pexels.com/photos/29928161/pexels-photo-29928161.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "width": 180,
+        "height": 180,
+        "left": 48,
+        "top": 185,
+        "fixedRatio": true,
+        "rotate": 0,
+        "clip": {
+          "shape": "ellipse",
+          "range": [
+            [
+              0,
+              0
+            ],
+            [
+              100,
+              100
+            ]
+          ]
+        },
+        "filters": {
+          "grayscale": "100%"
+        },
+        "imageType": "pageFigure"
       }
     ],
     "background": {
       "type": "solid",
-      "color": "#ffffff"
+      "color": "#fff"
     }
   },
   {
