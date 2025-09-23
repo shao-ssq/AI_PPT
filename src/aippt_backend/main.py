@@ -188,9 +188,9 @@ def get_question_prompt():
     return PromptTemplate.from_template(question_template)
 
 def build_question_chain(model_name: str = None):
-    api_key = "sk-fde79e00a7884adaaf63f0040c8e5b01"
-    base_url = "https://api.deepseek.com"
-    default_model = "deepseek-chat"
+    api_key = "sk-2ATS_DZuOdhxw-MhO0M_4w"
+    base_url = "http://litellm.uattest.weoa.com/v1"
+    default_model = "qwen3-coder-480b-a35b"
     model = model_name or default_model
     llm = ChatOpenAI(
         temperature=0.7,
