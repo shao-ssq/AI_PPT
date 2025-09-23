@@ -59,7 +59,7 @@ export const useMainStore = defineStore('main', {
     showRuler: false, // 显示标尺
     creatingElement: null, // 正在插入的元素信息，需要通过绘制插入的元素（文字、形状、线条）
     creatingCustomShape: false, // 正在绘制任意多边形
-    toolbarState: ToolbarStates.SLIDE_DESIGN, // 右侧工具栏状态
+    toolbarState: ToolbarStates.LLM_ASK, // 右侧工具栏状态
     clipingImageElementId: '', // 当前正在裁剪的图片ID  
     richTextAttrs: defaultRichTextAttrs, // 富文本状态
     selectedTableCells: [], // 选中的表格单元格

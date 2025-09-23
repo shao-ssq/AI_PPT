@@ -12,7 +12,18 @@ from langchain_openai import ChatOpenAI
 # 加载.env环境变量
 load_dotenv()
 
+
 app = FastAPI()
+
+# 允许跨域请求，解决前端OPTIONS 405问题
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 可根据需要指定前端地址
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # PPT大纲生成Prompt
 def get_outline_prompt():
@@ -157,9 +168,65 @@ async def generate_ppt_content_stream(request: PPTContentRequest):
 
     return StreamingResponse(stream_pages(), media_type="text/event-stream")
 
+
+# PPT概念/理论解释Prompt
+def get_question_prompt():
+    question_template = '''
+你是一个专业的知识讲解助手，专门为用户解释PPT制作过程中遇到的不懂的概念、术语或理论。
+
+请根据用户提出的具体概念或理论，给出权威、简明、易懂的解释。
+
+要求：
+- 回复内容不要使用markdown格式，直接用普通文本。
+- 回复要简明扼要，避免冗长。
+- 先简要定义该概念或理论
+- 如有必要，补充背景、应用场景或举例
+- 语言通俗，适合非专业人士理解
+
+用户提问：{question}
+'''
+    return PromptTemplate.from_template(question_template)
+
+def build_question_chain(model_name: str = None):
+    api_key = "sk-fde79e00a7884adaaf63f0040c8e5b01"
+    base_url = "https://api.deepseek.com"
+    default_model = "deepseek-chat"
+    model = model_name or default_model
+    llm = ChatOpenAI(
+        temperature=0.7,
+        model=model,
+        openai_api_key=api_key,
+        base_url=base_url
+    )
+    return get_question_prompt() | llm | StrOutputParser()
+
+from fastapi import Body
+from fastapi.responses import StreamingResponse
+
+
+class PPTQuestionRequest(BaseModel):
+    question: str = Field(..., description="用户咨询的不懂的概念或理论")
+    stream: bool = True
+
+
 @app.post("/tools/aippt_ask")
-async def generate_question_content_stream(question: str):
-    return "This is a test message"
+async def generate_question_content_stream(request: PPTQuestionRequest):
+    chain = build_question_chain()  # model写死
+
+    async def token_stream():
+        try:
+            print("[调试] /tools/aippt_ask 调用参数：", {
+                "question": request.question
+            })
+            async for chunk in chain.astream({"question": request.question}):
+                yield chunk
+        except Exception as e:
+            import traceback
+            print("[AIPPT Ask Streaming Error]", e)
+            traceback.print_exc()
+            yield f"\n[ERROR]: {str(e)}\n"
+
+    return StreamingResponse(token_stream(), media_type="text/event-stream")
 
 
 if __name__ == "__main__":

@@ -33,37 +33,49 @@ const messages = ref([])
 const lastRef = ref(null)
 const loading = ref(false)
 
-// 模拟 LLM 响应
-function fakeLLMResponse(question) {
-  const answers = [
-    '这是个很好的问题，我来详细解释一下……',
-    '你可以这样理解：LLM 就像一个超级搜索引擎 + 语言专家。',
-    '换句话说，它会基于大量训练数据给出最合理的答案。',
-    '我不太确定，但可以给你一些思路……',
-  ]
-  const randomIndex = Math.floor(Math.random() * answers.length)
-  return answers[randomIndex]
-}
-
-// 发送消息
-function sendMessage() {
+// 发送消息（真实请求后端LLM接口，流式显示回复）
+async function sendMessage() {
   if (!userInput.value.trim() || loading.value) return
 
-  // 添加用户消息
   messages.value.push({ role: 'user', content: userInput.value })
   const question = userInput.value
   userInput.value = ''
   loading.value = true
 
-  // 模拟 AI 回复（延迟）
-  setTimeout(() => {
-    const answer = fakeLLMResponse(question)
-    messages.value.push({ role: 'ai', content: answer })
+  // 新增AI消息（流式追加内容）
+  const aiMsg = { role: 'ai', content: '' }
+  messages.value.push(aiMsg)
+
+  try {
+    const response = await fetch('http://127.0.0.1:5000/tools/aippt_ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    })
+    if (!response.body) throw new Error('无响应流')
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder('utf-8')
+    let done = false
+      while (!done) {
+        const { value, done: doneReading } = await reader.read()
+        done = doneReading
+        if (value) {
+          const chunk = decoder.decode(value)
+          aiMsg.content += chunk
+          // 强制触发响应式刷新，保证流式内容实时显示
+          messages.value = [...messages.value]
+          // 实时滚动到底部
+          lastRef.value.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
+  } catch (e) {
+    aiMsg.content += '\n[AI接口异常] ' + (e.message || e)
+  } finally {
     loading.value = false
-  }, Math.random() * 1500 + 500)
-  setTimeout(() => {
-    lastRef.value.scrollIntoView({ behavior: 'smooth' })
-  }, Math.random() * 1500 + 500)
+    setTimeout(() => {
+      lastRef.value.scrollIntoView({ behavior: 'smooth' })
+    }, 200)
+  }
 }
 </script>
 
