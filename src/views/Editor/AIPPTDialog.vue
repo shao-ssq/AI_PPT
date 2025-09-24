@@ -2,86 +2,87 @@
   <div class="aippt-dialog">
     <div class="header">
       <span class="title">CNC PPT</span>
-      <span class="subtite" v-if="step === 'template'">从下方挑选合适的模板生成PPT，或<span class="local" v-tooltip="'上传.pptist格式模板文件'" @click="uploadLocalTemplate()">使用本地模板生成</span></span>
+      <span class="subtite" v-if="step === 'template'">从下方挑选合适的模板生成PPT，或<span class="local"
+          v-tooltip="'上传.pptist格式模板文件'" @click="uploadLocalTemplate()">使用本地模板生成</span></span>
       <span class="subtite" v-else-if="step === 'outline'">确认下方内容大纲（点击编辑内容，右键添加/删除大纲项），开始选择模板</span>
     </div>
 
     <template v-if="step === 'setup'">
-      <Input class="input"
-        ref="inputRef"
-        v-model:value="keyword"
-        :maxlength="50"
-        placeholder="输入您的PPT主题，并适当补充信息，如行业、岗位、学科、用途等"
-        @enter="createOutline()"
-      >
+      <template v-if="!props.isMD">
+        <Input class="input" ref="inputRef" v-model:value="keyword" :maxlength="50"
+          placeholder="输入您的PPT主题，并适当补充信息，如行业、岗位、学科、用途等" @enter="createOutline()">
         <template #suffix>
           <span class="count">{{ keyword.length }} / 50</span>
-          <div class="submit" type="primary" @click="createOutline()"><IconSend class="icon" /> AI 生成</div>
+          <div class="submit" type="primary" @click="createOutline()">
+            <IconSend class="icon" /> AI 生成
+          </div>
         </template>
-      </Input>
+        </Input>
+      </template>
+      <template v-else>
+        <TextArea class="input" ref="inputRef" v-model:value="keyword" :maxlength="1000" :rows="25"
+          placeholder="请输入 MarkDown 格式文本" />
+        <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 4px;">
+          <span class="count">{{ keyword.length }} / 1000</span>
+        </div>
+
+      </template>
       <div class="configs">
         <div class="config-item">
           <div class="label">语言：</div>
-          <Select
-            class="config-content"
-            style="width: 80px;"
-            v-model:value="language"
-            :options="[
-              { label: '中文', value: '中文' },
-              { label: '英文', value: 'English' },
-            ]"
-          />
+          <Select class="config-content" style="width: 80px;" v-model:value="language" :options="[
+            { label: '中文', value: '中文' },
+            { label: '英文', value: 'English' },
+          ]" />
         </div>
         <div class="config-item">
           <div class="label">风格：</div>
-          <Select
-            class="config-content"
-            style="width: 80px;"
-            v-model:value="style"
-            :options="[
-              { label: '通用', value: '通用' },
-              { label: '学术风', value: '学术风' },
-              { label: '职场风', value: '职场风' },
-              { label: '教育风', value: '教育风' },
-              { label: '营销风', value: '营销风' },
-            ]"
-          />
+          <Select class="config-content" style="width: 80px;" v-model:value="style" :options="[
+            { label: '通用', value: '通用' },
+            { label: '学术风', value: '学术风' },
+            { label: '职场风', value: '职场风' },
+            { label: '教育风', value: '教育风' },
+            { label: '营销风', value: '营销风' },
+          ]" />
+        </div>
+        <div class="submit" type="primary" @click="createOutline()">
+          <IconSend class="icon" /> AI 生成
         </div>
         <div class="config-item">
-<!--          <div class="label">模型：</div>-->
-<!--          <Select-->
-<!--            class="config-content"-->
-<!--            style="width: 190px;"-->
-<!--            v-model:value="model"-->
-<!--            :options="[-->
-<!--              { label: 'GLM-4.5-Air', value: 'GLM-4.5-Air' },-->
-<!--              { label: 'GLM-4.5-Flash', value: 'GLM-4.5-Flash' },-->
-<!--              { label: 'Doubao-Seed-1.6-flash', value: 'ark-doubao-seed-1.6-flash' },-->
-<!--              { label: 'Doubao-Seed-1.6', value: 'ark-doubao-seed-1.6' },-->
-<!--            ]"-->
-<!--          />-->
+          <!--          <div class="label">模型：</div>-->
+          <!--          <Select-->
+          <!--            class="config-content"-->
+          <!--            style="width: 190px;"-->
+          <!--            v-model:value="model"-->
+          <!--            :options="[-->
+          <!--              { label: 'GLM-4.5-Air', value: 'GLM-4.5-Air' },-->
+          <!--              { label: 'GLM-4.5-Flash', value: 'GLM-4.5-Flash' },-->
+          <!--              { label: 'Doubao-Seed-1.6-flash', value: 'ark-doubao-seed-1.6-flash' },-->
+          <!--              { label: 'Doubao-Seed-1.6', value: 'ark-doubao-seed-1.6' },-->
+          <!--            ]"-->
+          <!--          />-->
         </div>
         <div class="config-item">
-<!--          <div class="label">配图：</div>-->
-<!--          <Select-->
-<!--            class="config-content"-->
-<!--            style="width: 100px;"-->
-<!--            v-model:value="img"-->
-<!--            :options="[-->
-<!--              { label: '无', value: '' },-->
-<!--              { label: '模拟测试', value: 'test' },-->
-<!--              { label: 'AI搜图', value: 'ai-search', disabled: true },-->
-<!--              { label: 'AI生图', value: 'ai-create', disabled: true },-->
-<!--            ]"-->
-<!--          />-->
+          <!--          <div class="label">配图：</div>-->
+          <!--          <Select-->
+          <!--            class="config-content"-->
+          <!--            style="width: 100px;"-->
+          <!--            v-model:value="img"-->
+          <!--            :options="[-->
+          <!--              { label: '无', value: '' },-->
+          <!--              { label: '模拟测试', value: 'test' },-->
+          <!--              { label: 'AI搜图', value: 'ai-search', disabled: true },-->
+          <!--              { label: 'AI生图', value: 'ai-create', disabled: true },-->
+          <!--            ]"-->
+          <!--          />-->
         </div>
       </div>
     </template>
     <div class="preview" v-if="step === 'outline'">
       <pre ref="outlineRef" v-if="outlineCreating">{{ outline }}</pre>
-       <div class="outline-view" v-else>
-         <OutlineEditor v-model:value="outline" />
-       </div>
+      <div class="outline-view" v-else>
+        <OutlineEditor v-model:value="outline" />
+      </div>
       <div class="btns" v-if="!outlineCreating">
         <Button class="btn" type="primary" @click="step = 'template'">选择模板</Button>
         <Button class="btn" @click="outline = ''; step = 'setup'">返回重新生成</Button>
@@ -89,12 +90,8 @@
     </div>
     <div class="select-template" v-if="step === 'template'">
       <div class="templates">
-        <div class="template"
-          :class="{ 'selected': selectedTemplate === template.id }"
-          v-for="template in templates"
-          :key="template.id"
-          @click="selectedTemplate = template.id"
-        >
+        <div class="template" :class="{ 'selected': selectedTemplate === template.id }" v-for="template in templates"
+          :key="template.id" @click="selectedTemplate = template.id">
           <img :src="template.cover" :alt="template.name">
         </div>
       </div>
@@ -119,10 +116,12 @@ import message from '@/utils/message'
 import { decrypt } from '@/utils/crypto'
 import { useMainStore, useSlidesStore } from '@/store'
 import Input from '@/components/Input.vue'
+import TextArea from '@/components/TextArea.vue'
 import Button from '@/components/Button.vue'
 import Select from '@/components/Select.vue'
 import FullscreenSpin from '@/components/FullscreenSpin.vue'
 import OutlineEditor from '@/components/OutlineEditor.vue'
+const props = defineProps(['isMD'])
 
 const mainStore = useMainStore()
 const slideStore = useSlidesStore()
@@ -208,7 +207,7 @@ const createOutline = async () => {
 
 const createPPT = async (template?: { slides: Slide[], theme: SlideTheme }) => {
   loading.value = true
-
+  
   const stream = await api.AIPPT({
     content: outline.value,
     language: language.value,
@@ -286,6 +285,7 @@ const uploadLocalTemplate = () => {
   margin: -20px;
   padding: 30px;
 }
+
 .header {
   margin-bottom: 12px;
 
@@ -299,6 +299,7 @@ const uploadLocalTemplate = () => {
     vertical-align: text-bottom;
     line-height: 1.1;
   }
+
   .subtite {
     color: #888;
     font-size: 12px;
@@ -310,6 +311,7 @@ const uploadLocalTemplate = () => {
     }
   }
 }
+
 .preview {
   pre {
     max-height: 450px;
@@ -318,6 +320,7 @@ const uploadLocalTemplate = () => {
     background-color: #f1f1f1;
     overflow: auto;
   }
+
   .outline-view {
     max-height: 450px;
     padding: 10px;
@@ -325,6 +328,7 @@ const uploadLocalTemplate = () => {
     background-color: #f1f1f1;
     overflow: auto;
   }
+
   .btns {
     display: flex;
     justify-content: center;
@@ -336,6 +340,7 @@ const uploadLocalTemplate = () => {
     }
   }
 }
+
 .select-template {
   .templates {
     display: flex;
@@ -362,6 +367,7 @@ const uploadLocalTemplate = () => {
       }
     }
   }
+
   .btns {
     display: flex;
     justify-content: center;
@@ -373,6 +379,7 @@ const uploadLocalTemplate = () => {
     }
   }
 }
+
 .recommends {
   display: flex;
   flex-wrap: wrap;
@@ -392,10 +399,12 @@ const uploadLocalTemplate = () => {
     }
   }
 }
+
 .configs {
   margin-top: 15px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   .config-item {
     font-size: 13px;
@@ -403,11 +412,13 @@ const uploadLocalTemplate = () => {
     align-items: center;
   }
 }
+
 .count {
   font-size: 12px;
   color: #999;
   margin-right: 10px;
 }
+
 .submit {
   height: 20px;
   font-size: 12px;
@@ -429,7 +440,7 @@ const uploadLocalTemplate = () => {
   }
 }
 
-@media screen and (width <= 800px) {
+@media screen and (width <=800px) {
   .configs {
     margin-top: 15px;
     display: flex;
@@ -447,6 +458,7 @@ const uploadLocalTemplate = () => {
       }
     }
   }
+
   .select-template {
     .templates {
       max-height: 450px;
@@ -459,7 +471,7 @@ const uploadLocalTemplate = () => {
         margin-bottom: 0 !important;
         margin-right: 0 !important;
 
-        & + .template {
+        &+.template {
           margin-top: 20px;
         }
       }

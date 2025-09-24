@@ -26,7 +26,7 @@
     closeButton
     @closed="closeAIPPTDialog()"
   >
-    <AIPPTDialog />
+    <AIPPTDialog :isMD="isMD"/>
   </Modal>
 </template>
 
@@ -49,7 +49,7 @@ defineProps<{
 const { slides } = storeToRefs(useSlidesStore())
 const { slidesLoadLimit } = useLoadSlides()
 const mainStore = useMainStore()
-const { showAIPPTDialog } = storeToRefs(mainStore)
+const { showAIPPTDialog, isMD } = storeToRefs(mainStore)
 
 const openAIPPTDialog = () => mainStore.setAIPPTDialogState(true)
 const closeAIPPTDialog = () => mainStore.setAIPPTDialogState(false)
