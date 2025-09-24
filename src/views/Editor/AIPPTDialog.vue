@@ -2,9 +2,7 @@
   <div class="aippt-dialog">
     <div class="header">
       <span class="title">CNC PPT</span>
-      <span class="subtite" v-if="step === 'template'">从下方挑选合适的模板生成PPT，或<span class="local"
-          v-tooltip="'上传.pptist格式模板文件'" @click="uploadLocalTemplate()">使用本地模板生成</span></span>
-      <span class="subtite" v-else-if="step === 'outline'">确认下方内容大纲（点击编辑内容，右键添加/删除大纲项），开始选择模板</span>
+      <span class="subtite" v-if="step === 'outline'">确认下方内容大纲（点击编辑内容，右键添加/删除大纲项），开始选择模板</span>
     </div>
 
     <template v-if="step === 'setup'">
@@ -45,36 +43,12 @@
             { label: '营销风', value: '营销风' },
           ]" />
         </div>
-        <div class="submit" type="primary" @click="createOutline()">
+        <div class="submit" type="primary" @click="createPPT()">
           <IconSend class="icon" /> AI 生成
         </div>
         <div class="config-item">
-          <!--          <div class="label">模型：</div>-->
-          <!--          <Select-->
-          <!--            class="config-content"-->
-          <!--            style="width: 190px;"-->
-          <!--            v-model:value="model"-->
-          <!--            :options="[-->
-          <!--              { label: 'GLM-4.5-Air', value: 'GLM-4.5-Air' },-->
-          <!--              { label: 'GLM-4.5-Flash', value: 'GLM-4.5-Flash' },-->
-          <!--              { label: 'Doubao-Seed-1.6-flash', value: 'ark-doubao-seed-1.6-flash' },-->
-          <!--              { label: 'Doubao-Seed-1.6', value: 'ark-doubao-seed-1.6' },-->
-          <!--            ]"-->
-          <!--          />-->
         </div>
         <div class="config-item">
-          <!--          <div class="label">配图：</div>-->
-          <!--          <Select-->
-          <!--            class="config-content"-->
-          <!--            style="width: 100px;"-->
-          <!--            v-model:value="img"-->
-          <!--            :options="[-->
-          <!--              { label: '无', value: '' },-->
-          <!--              { label: '模拟测试', value: 'test' },-->
-          <!--              { label: 'AI搜图', value: 'ai-search', disabled: true },-->
-          <!--              { label: 'AI生图', value: 'ai-create', disabled: true },-->
-          <!--            ]"-->
-          <!--          />-->
         </div>
       </div>
     </template>
@@ -97,7 +71,8 @@
       </div>
       <div class="btns">
         <Button class="btn" type="primary" @click="createPPT()">生成</Button>
-        <Button class="btn" @click="step = 'outline'">返回大纲</Button>
+
+        <Button v-if="!props.isMD" class="btn" @click="step = 'outline'">返回大纲</Button>
       </div>
     </div>
 
@@ -140,19 +115,6 @@ const step = ref<'setup' | 'outline' | 'template'>('setup')
 const model = ref('GLM-4.5-Air')
 const outlineRef = useTemplateRef<HTMLElement>('outlineRef')
 const inputRef = useTemplateRef<InstanceType<typeof Input>>('inputRef')
-
-const recommends = ref([
-  '2025科技前沿动态',
-  '大数据如何改变世界',
-  '餐饮市场调查与研究',
-  'AIGC在教育领域的应用',
-  '社交媒体与品牌营销',
-  '5G技术如何改变我们的生活',
-  '年度工作总结与展望',
-  '区块链技术及其应用',
-  '大学生职业生涯规划',
-  '公司年会策划方案',
-])
 
 onMounted(() => {
   setTimeout(() => {
@@ -206,10 +168,13 @@ const createOutline = async () => {
 }
 
 const createPPT = async (template?: { slides: Slide[], theme: SlideTheme }) => {
+  if (props.isMD && step.value !== 'template') {
+    step.value = 'template'
+    return
+  }
   loading.value = true
-  
   const stream = await api.AIPPT({
-    content: outline.value,
+    content: props.isMD ? keyword.value : outline.value,
     language: language.value,
     style: style.value,
     model: model.value,
