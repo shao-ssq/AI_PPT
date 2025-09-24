@@ -1,7 +1,7 @@
 import axios from './config'
 
-// export const SERVER_URL = 'http://localhost:5000'
-export const SERVER_URL = 'http://172.21.3.56:5000'
+export const SERVER_URL = 'http://127.0.0.1:5000'
+// export const SERVER_URL = 'http://172.21.3.56:5000'
 
 interface AIPPTOutlinePayload {
   content: string

@@ -8,14 +8,7 @@ from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
-
-# 加载.env环境变量
-load_dotenv()
-
-
 app = FastAPI()
-
-# 允许跨域请求，解决前端OPTIONS 405问题
 from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
@@ -24,6 +17,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+
+# key = "sk-2ATS_DZuOdhxw-MhO0M_4w"
+# url = "http://litellm.uattest.weoa.com/v1"
+# model = "qwen3-coder-480b-a35b"
+
+
 
 # PPT大纲生成Prompt
 def get_outline_prompt():
@@ -51,13 +52,11 @@ def get_outline_prompt():
     return PromptTemplate.from_template(template)
 
 def build_outline_chain(model_name: str = None):
-    api_key = "sk-2ATS_DZuOdhxw-MhO0M_4w"
-    base_url = "http://litellm.uattest.weoa.com/v1"
-    default_model = "qwen3-coder-480b-a35b"
-    model = default_model
+    api_key = global_key
+    base_url = global_url
     llm = ChatOpenAI(
         temperature=0.7,
-        model=model,
+        model=global_model,
         openai_api_key=api_key,
         base_url=base_url
     )
@@ -101,9 +100,9 @@ def get_ppt_content_prompt():
     return PromptTemplate.from_template(ppt_content_template)
 
 def build_ppt_content_chain(model_name: str = None):
-    api_key = "sk-2ATS_DZuOdhxw-MhO0M_4w"
-    base_url = "http://litellm.uattest.weoa.com/v1"
-    default_model = "qwen3-coder-480b-a35b"
+    api_key = global_key
+    base_url = global_url
+    default_model = global_model
     model = default_model
     llm = ChatOpenAI(
         temperature=0.7,
@@ -188,10 +187,10 @@ def get_question_prompt():
     return PromptTemplate.from_template(question_template)
 
 def build_question_chain(model_name: str = None):
-    api_key = "sk-2ATS_DZuOdhxw-MhO0M_4w"
-    base_url = "http://litellm.uattest.weoa.com/v1"
-    default_model = "qwen3-coder-480b-a35b"
-    model = model_name or default_model
+    api_key = global_key
+    base_url = global_url
+    default_model = global_model
+    model = default_model
     llm = ChatOpenAI(
         temperature=0.7,
         model=model,
