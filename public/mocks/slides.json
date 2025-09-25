@@ -82,7 +82,7 @@
           "rotate": 0,
           "defaultFontName": "",
           "defaultColor": "#333",
-          "content": "<p style=\"\"><span style=\"font-size: 20px;\"><span style=\"font-family: 微软雅黑;\"><span style=\"color: rgb(30, 83, 164);\">汇报人：(shaoqisun)孙绍齐</span></span></span></p><p style=\"\"><span style=\"font-size: 20px;\"><span style=\"font-family: 微软雅黑;\"><span style=\"color: rgb(30, 83, 164);\">部门：武汉研发中心-开发六室</span></span></span></p>",
+          "content": "<p style=\"\"><span style=\"font-size: 20px;\"><span style=\"font-family: 微软雅黑;\"><span style=\"color: rgb(30, 83, 164);\">汇报人：xxx</span></span></span></p><p style=\"\"><span style=\"font-size: 20px;\"><span style=\"font-family: 微软雅黑;\"><span style=\"color: rgb(30, 83, 164);\">部门：xxx</span></span></span></p>",
           "lineHeight": 1,
           "outline": {
             "color": "#000000",
@@ -376,7 +376,7 @@
           "rotate": 0,
           "defaultFontName": "",
           "defaultColor": "#333",
-          "content": "<p style=\"\"><span style=\"font-size: 20px;\"><span style=\"font-family: 微软雅黑;\"><span style=\"color: rgb(30, 83, 164);\">汇报人：(shaoqisun)孙绍齐</span></span></span></p><p style=\"\"><span style=\"font-size: 20px;\"><span style=\"font-family: 微软雅黑;\"><span style=\"color: rgb(30, 83, 164);\">部门：武汉研发中心-开发六室</span></span></span></p>",
+          "content": "<p style=\"\"><span style=\"font-size: 20px;\"><span style=\"font-family: 微软雅黑;\"><span style=\"color: rgb(30, 83, 164);\">汇报人：xxx</span></span></span></p><p style=\"\"><span style=\"font-size: 20px;\"><span style=\"font-family: 微软雅黑;\"><span style=\"color: rgb(30, 83, 164);\">部门：xxx</span></span></span></p>",
           "lineHeight": 1,
           "outline": {
             "color": "#000000",

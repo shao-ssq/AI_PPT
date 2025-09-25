@@ -211,14 +211,14 @@ const openAIPPTDialog = (isMD?: boolean) => {
   }
 
   .ai {
-    background: #D80C18;
+    background: linear-gradient(135deg, #d897fd, #9a8cfd, #33bcfc);
     background-clip: text;
     color: transparent;
     font-weight: 700;
   }
 
   .ai2 {
-    background: #3364AE;
+    background: linear-gradient(270deg, #cfa9ff, #9a8cfd, #4ed0ff);
     background-clip: text;
     color: transparent;
     font-weight: 700;

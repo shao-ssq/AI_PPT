@@ -37,7 +37,7 @@ const elementTabs = [
   {label: '动画', key: ToolbarStates.EL_ANIMATION},
 ]
 const slideTabs = [
-  {label: 'Ask AI', key: ToolbarStates.LLM_ASK},
+  {label: 'Agetn', key: ToolbarStates.LLM_ASK},
   {label: '设计', key: ToolbarStates.SLIDE_DESIGN},
   {label: '切换', key: ToolbarStates.SLIDE_ANIMATION},
   {label: '动画', key: ToolbarStates.EL_ANIMATION},
