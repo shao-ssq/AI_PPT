@@ -43,6 +43,8 @@
 </template>
 
 <script lang="ts" setup>
+/* 清空 Agent 历史消息 */
+localStorage.clear()
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/store'

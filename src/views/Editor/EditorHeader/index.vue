@@ -37,27 +37,10 @@
                 </span>
                 <span class="label">PPTX</span>
               </FileInput>
-<!--              <FileInput class="import-block" accept=".json" @change="files => {-->
-<!--                importJSON(files)-->
-<!--                mainMenuVisible = false-->
-<!--              }">-->
-<!--                <span class="icon">-->
-<!--                  <IconFileJpg theme="multi-color" :fill="['#333', '#d14424', '#fff']" />-->
-<!--                </span>-->
-<!--                <span class="label">JSON</span>-->
-<!--              </FileInput>-->
-<!--              <FileInput class="import-block" accept=".pptist" @change="files => {-->
-<!--                importSpecificFile(files)-->
-<!--                mainMenuVisible = false-->
-<!--              }">-->
-<!--                <span class="icon">-->
-<!--                  <IconNotes theme="multi-color" :fill="['#333', '#d14424', '#fff']" />-->
-<!--                </span>-->
-<!--                <span class="label">PPTIST</span>-->
-<!--              </FileInput>-->
             </div>
           </div>
-          <Divider :margin="10" />
+
+          <PopoverMenuItem class="popover-menu-item" @click="mainMenuVisible = false; hotkeyDrawerVisible = true"><IconCommand class="icon" /> 快捷操作</PopoverMenuItem>
           <PopoverMenuItem class="popover-menu-item" @click="resetSlides(); mainMenuVisible = false">
             <IconRefresh class="icon" /> 重置幻灯片
           </PopoverMenuItem>

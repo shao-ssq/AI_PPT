@@ -10,7 +10,7 @@
 
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useScreenStore, useMainStore, useSnapshotStore, useSlidesStore } from '@/store'
 import { LOCALSTORAGE_KEY_DISCARDED_DB } from '@/configs/storage'
@@ -45,7 +45,7 @@ onMounted(async () => {
 })
 
 // 应用注销时向 localStorage 中记录下本次 indexedDB 的数据库ID，用于之后清除数据库
-window.addEventListener('beforeunload', () => {
+window.addEventListener('beforeunload', (event) => {
   const discardedDB = localStorage.getItem(LOCALSTORAGE_KEY_DISCARDED_DB)
   const discardedDBList: string[] = discardedDB ? JSON.parse(discardedDB) : []
 
@@ -53,6 +53,8 @@ window.addEventListener('beforeunload', () => {
 
   const newDiscardedDB = JSON.stringify(discardedDBList)
   localStorage.setItem(LOCALSTORAGE_KEY_DISCARDED_DB, newDiscardedDB)
+  event.preventDefault()
+  event.returnValue = ''
 })
 </script>
 
