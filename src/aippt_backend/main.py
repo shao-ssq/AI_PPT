@@ -18,6 +18,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+
+
 # key = "sk-2ATS_DZuOdhxw-MhO0M_4w"
 # url = "http://litellm.uattest.weoa.com/v1"
 # model = "qwen3-coder-480b-a35b"
@@ -63,7 +66,7 @@ def build_outline_chain(model_name: str = None):
 # PPT内容生成Prompt
 def get_ppt_content_prompt():
     ppt_content_template = """
-你是一个专业的PPT内容生成助手，请根据给定的大纲内容，生成完整的PPT页面内容结构。
+你是一个专业的PPT内容生成助手，请根据给定的大纲内容，生成完整的PPT页面内容结构，内容要完整详细，不要省略。
 
 页面类型包括：
 - 封面页："cover"
@@ -77,6 +80,7 @@ def get_ppt_content_prompt():
 - 每个 JSON 对象写在**同一行**
 - 页面之间用两个换行符分隔
 - 不要添加任何注释或解释说明
+- text要足够完整，字数不能少于25字
 
 示例格式（注意每个 JSON 占一行）：
 
