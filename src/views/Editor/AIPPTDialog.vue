@@ -18,10 +18,10 @@
         </Input>
       </template>
       <template v-else>
-        <TextArea class="input" ref="inputRef" v-model:value="keyword" :maxlength="1000" :rows="25"
+        <TextArea class="input" ref="inputRef" v-model:value="keyword" :maxlength="10000" :rows="25"
           placeholder="请输入 MarkDown 格式文本" />
         <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 4px;">
-          <span class="count">{{ keyword.length }} / 1000</span>
+          <span class="count">{{ keyword.length }} / 10000</span>
         </div>
 
       </template>
