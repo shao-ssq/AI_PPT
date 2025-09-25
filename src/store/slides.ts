@@ -53,7 +53,7 @@ export const useSlidesStore = defineStore('slides', {
     viewportSize: 1000, // 可视区域宽度基数
     viewportRatio: 0.5625, // 可视区域比例，默认16:9
     templates: [
-      { name: 'WeBank通用', id: 'template_0', cover: './imgs/template_4.jpg' },
+      { name: 'WeBank', id: 'template_0', cover: './imgs/template_4.jpg' },
       { name: '红色通用', id: 'template_1', cover: './imgs/template_1.jpg' },
       { name: '蓝色通用', id: 'template_2', cover: './imgs/template_2.jpg' },
       { name: '紫色通用', id: 'template_3', cover: './imgs/template_3.jpg' },

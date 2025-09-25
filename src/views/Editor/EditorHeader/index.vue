@@ -6,11 +6,20 @@
           <div class="main-menu">
             <div class="ai-menu" @click="openAIPPTDialog(); mainMenuVisible = false">
               <div class="icon">
-                <IconClick theme="two-tone" :fill="['#ffc158', '#fff']" />
+                <IconClick theme="two-tone" :fill="['#f5aa30', '#fff']" />
               </div>
               <div class="aippt-content">
-                <div class="aippt"><span>CNC PPT</span></div>
-                <div class="aippt-subtitle">输入一句话，智能生成演示文稿</div>
+                <div class="aippt"><span>直接生成</span></div>
+                <div class="aippt-subtitle">输入一句话，生成演示文稿大纲和简要内容</div>
+              </div>
+            </div>
+            <div class="ai-menu" @click="openAIPPTDialog(true); mainMenuVisible = false">
+              <div class="icon">
+                <IconClick theme="two-tone" :fill="['#ec76fa', '#fff']" />
+              </div>
+              <div class="aippt-content">
+                <div class="aippt2"><span>基于MarkDown生成</span></div>
+                <div class="aippt-subtitle">输入已有文档，智能生成演示文稿全部内容</div>
               </div>
             </div>
           </div>
@@ -28,24 +37,24 @@
                 </span>
                 <span class="label">PPTX</span>
               </FileInput>
-              <FileInput class="import-block" accept=".json" @change="files => {
-                importJSON(files)
-                mainMenuVisible = false
-              }">
-                <span class="icon">
-                  <IconFileJpg theme="multi-color" :fill="['#333', '#d14424', '#fff']" />
-                </span>
-                <span class="label">JSON</span>
-              </FileInput>
-              <FileInput class="import-block" accept=".pptist" @change="files => {
-                importSpecificFile(files)
-                mainMenuVisible = false
-              }">
-                <span class="icon">
-                  <IconNotes theme="multi-color" :fill="['#333', '#d14424', '#fff']" />
-                </span>
-                <span class="label">PPTIST</span>
-              </FileInput>
+<!--              <FileInput class="import-block" accept=".json" @change="files => {-->
+<!--                importJSON(files)-->
+<!--                mainMenuVisible = false-->
+<!--              }">-->
+<!--                <span class="icon">-->
+<!--                  <IconFileJpg theme="multi-color" :fill="['#333', '#d14424', '#fff']" />-->
+<!--                </span>-->
+<!--                <span class="label">JSON</span>-->
+<!--              </FileInput>-->
+<!--              <FileInput class="import-block" accept=".pptist" @change="files => {-->
+<!--                importSpecificFile(files)-->
+<!--                mainMenuVisible = false-->
+<!--              }">-->
+<!--                <span class="icon">-->
+<!--                  <IconNotes theme="multi-color" :fill="['#333', '#d14424', '#fff']" />-->
+<!--                </span>-->
+<!--                <span class="label">PPTIST</span>-->
+<!--              </FileInput>-->
             </div>
           </div>
           <Divider :margin="10" />
@@ -68,14 +77,6 @@
         <Input class="title-input" ref="titleInputRef" v-model:value="titleValue" @blur="handleUpdateTitle()"
           v-if="editingTitle"></Input>
         <div class="title-text" @click="startEditTitle()" :title="title" v-else>{{ title }}</div>
-      </div>
-    </div>
-    <div class="middle">
-      <div class="menu-item" v-tooltip="'AI生成PPT'" @click="openAIPPTDialog(); mainMenuVisible = false">
-        <span class="text ai">直接生成</span>
-      </div>
-      <div class="menu-item" v-tooltip="'AI生成PPT'" @click="openAIPPTDialog(true); mainMenuVisible = false">
-        <span class="text ai2">基于MarkDown生成</span>
       </div>
     </div>
     <div class="right">
@@ -151,11 +152,6 @@ const startEditTitle = () => {
 const handleUpdateTitle = () => {
   slidesStore.setTitle(titleValue.value)
   editingTitle.value = false
-}
-
-const goLink = (url: string) => {
-  window.open(url)
-  mainMenuVisible.value = false
 }
 
 const setDialogForExport = (type: DialogForExportTypes) => {
@@ -263,6 +259,9 @@ const openAIPPTDialog = (isMD?: boolean) => {
     font-size: 22px;
     margin-right: 16px;
   }
+  & + .ai-menu {
+    margin-top: 12px; // 或者你想要的间距
+  }
 
   .aippt-content {
     display: flex;
@@ -274,7 +273,17 @@ const openAIPPTDialog = (isMD?: boolean) => {
     font-size: 16px;
 
     span {
-      background: linear-gradient(270deg, #d897fd, #33bcfc);
+      background: #F5AA30FF;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+  .aippt2 {
+    font-weight: 700;
+    font-size: 16px;
+
+    span {
+      background: #ec76fa;
       background-clip: text;
       color: transparent;
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="aippt-dialog">
     <div class="header">
-      <span class="title">CNC PPT</span>
+      <span class="title">天工 PPT</span>
       <span class="subtite" v-if="step === 'outline'">确认下方内容大纲（点击编辑内容，右键添加/删除大纲项），开始选择模板</span>
     </div>
 
