@@ -158,7 +158,14 @@ async function sendMessage() {
   flex: 1;
   padding: 7px 7px;
   border-radius: 6px;
-  border: 2px solid #ccc;
+  border: 2px solid #3364ae;
+}
+
+
+.input-area input:focus {
+  border-image: linear-gradient(135deg, #d897fd, #9a8cfd, #33bcfc) 1;
+  outline: none;
+  box-shadow: 0 0 8px rgba(217, 151, 253, 0.5);
 }
 
 .send-img {
